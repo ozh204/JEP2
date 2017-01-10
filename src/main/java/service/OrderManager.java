@@ -15,7 +15,7 @@ public class OrderManager {
 
     private Map<Long, Orders> storage = new HashMap<Long, Orders>();
 
-    public OrdersManager() {
+    public OrderManager() {
         Orders order = new Orders();
 
         storage.put(1L, order);
