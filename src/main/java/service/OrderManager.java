@@ -24,7 +24,7 @@ public class OrderManager {
     @GET
     @Path("/{orderId}")
     @Produces("application/json")
-    public Waffle getWaffle(@PathParam("orderId") Long id){
+    public Orders getOrder(@PathParam("orderId") Long id){
         Orders o = storage.get(id);
         if (o == null) return new Orders();
         return o;

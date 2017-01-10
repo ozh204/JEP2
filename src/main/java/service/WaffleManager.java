@@ -19,7 +19,6 @@ public class WaffleManager {
         Waffle waffle = new Waffle();
 
         storage.put(1L, waffle);
-
     }
 
     @GET
