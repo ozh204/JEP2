@@ -1,8 +1,15 @@
 package domain;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 @XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "waffle.all", query = "Select w from Waffle w")
+})
 public class Waffle {
 
     private Long id;
@@ -11,9 +18,12 @@ public class Waffle {
     private String sugar = "Nie";
     private String cream = "Nie";
     private String fruit = "Brak";
+    private List<Orders> orders = new ArrayList<Orders>();
 
     public Waffle() {}
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -94,5 +104,14 @@ public class Waffle {
         }
 
         this.fruit = fruit;
+    }
+
+    @ManyToMany(mappedBy = "waffles", fetch = FetchType.EAGER)
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
     }
 }

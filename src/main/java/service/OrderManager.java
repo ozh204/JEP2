@@ -1,40 +1,50 @@
 package service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import domain.Waffle;
 import domain.Orders;
 
-@Path("order")
+@Stateless
 public class OrderManager {
 
-    private Map<Long, Orders> storage = new HashMap<Long, Orders>();
+    @PersistenceContext
+    EntityManager em;
 
-    public OrderManager() {
-        Orders order = new Orders();
-
-        storage.put(1L, order);
+    public Orders getOrder(Long id){
+        return em.find(Orders.class, id);
     }
 
-    @GET
-    @Path("/{orderId}")
-    @Produces("application/json")
-    public Orders getOrder(@PathParam("orderId") Long id){
-        Orders o = storage.get(id);
-        if (o == null) return new Orders();
-        return o;
+    public void addOrder(Orders order){
+        em.persist(order);
     }
 
-    @GET
-    @Path("/test")
-    @Produces("text/html")
-    public String test(){
-        return "REST Service is running";
+    public Waffle getWaffle(Long id){
+        return em.find(Waffle.class, id);
     }
+
+    public Waffle updateWaffle(Waffle waffle){
+        return em.merge(waffle);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Orders> getAll(){
+        return em.createNamedQuery("orders.all").getResultList();
+    }
+
+
+//    @SuppressWarnings("unchecked")
+//    public List<Person> getAllPersons(){
+//        return em.createNamedQuery("person.getAll").getResultList();
+//    }
+
+
+//    public void clearPersons(){
+//        em.createNamedQuery("person.deleteAll").executeUpdate();
+//    }
 
 }
