@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -23,12 +24,24 @@ public class OrderManager {
         em.persist(order);
     }
 
-    public Waffle getWaffle(Long id){
-        return em.find(Waffle.class, id);
+    public void modifyOrder(Orders newOrder) {
+
+        Orders order = em.find(Orders.class, newOrder.getId());
+
+        double price = 0;
+
+        for(Waffle waffle : order.getWaffles()) {
+            price += waffle.getPrice();
+        }
+
+        order.setPrice(price);
+        order.setWaffles(newOrder.getWaffles());
     }
 
-    public Waffle updateWaffle(Waffle waffle){
-        return em.merge(waffle);
+    public List<Waffle> getWafflesOfOrder(Long id){
+        Orders retrieved = em.find(Orders.class, id);
+        List<Waffle> result = new ArrayList<Waffle>(retrieved.getWaffles());
+        return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -36,15 +49,8 @@ public class OrderManager {
         return em.createNamedQuery("orders.all").getResultList();
     }
 
-
-//    @SuppressWarnings("unchecked")
-//    public List<Person> getAllPersons(){
-//        return em.createNamedQuery("person.getAll").getResultList();
-//    }
-
-
-//    public void clearPersons(){
-//        em.createNamedQuery("person.deleteAll").executeUpdate();
-//    }
+    public void deleteOrder(Orders order){
+        em.remove(order);
+    }
 
 }

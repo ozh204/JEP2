@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
+@SuppressWarnings("all")
 @Path("")
 @Stateless
 public class HomeRestService {
@@ -17,12 +18,13 @@ public class HomeRestService {
     HttpServletRequest request;
     @Context
     HttpServletResponse response;
-    
+
     @GET
-    @Path("/jsp")
-    public void getPage() {
+    @Path("/")
+    public void index() {
+
         try {
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            request.getRequestDispatcher("/home/index.jsp").forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {

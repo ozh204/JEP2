@@ -25,29 +25,38 @@ public class WaffleManager {
         return retrieved;
     }
 
+    public void modifyWaffle(Waffle newWaffle) {
+
+        Waffle waffle = em.find(Waffle.class, newWaffle.getId());
+
+        double price = 0;
+
+        waffle.setCream(newWaffle.getCream());
+        waffle.setFruit(newWaffle.getFruit());
+        waffle.setSugar(newWaffle.getSugar());
+        waffle.setTopping(newWaffle.getTopping());
+
+        if(!newWaffle.getCream().equals("Nie")) price += 2.5;
+        if(!newWaffle.getFruit().equals("Brak")) price += 3.5;
+        if(!newWaffle.getSugar().equals("Nie")) price += 0.5;
+        if(!newWaffle.getTopping().equals("Brak")) price += 1.5;
+
+        waffle.setPrice(price);
+    }
+
     public List<Orders> getOrdersOfWaffle(Long id){
         Waffle retrieved = em.find(Waffle.class, id);
         List<Orders> result = new ArrayList<Orders>(retrieved.getOrders());
         return result;
     }
 
-//    @SuppressWarnings("unchecked")
-//    public List<Object[]> getBookOfAuthrByAuthorName(String firstName){
-//        return em.createNamedQuery("bookAuthor.findByAthorFirstName").setParameter("firstName", firstName).getResultList();
-//    }
-
     @SuppressWarnings("unchecked")
     public List<Waffle> getAll(){
         return em.createNamedQuery("waffle.all").getResultList();
     }
 
-//    @SuppressWarnings("unchecked")
-//    public List<Book> findByYop(int yop){
-//        return em.createNamedQuery("book.findByYop").setParameter("yop", yop).getResultList();
-//    }
-
-//    public void deletAll(){
-//        em.createNamedQuery("book.delete.all").executeUpdate();
-//    }
+    public void deleteWaffle(Waffle waffle){
+        em.remove(waffle);
+    }
 
 }
