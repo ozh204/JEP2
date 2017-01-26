@@ -8,7 +8,8 @@ import java.util.List;
 @Entity
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "waffle.all", query = "Select w from Waffle w")
+        @NamedQuery(name = "waffle.all", query = "Select w from Waffle w"),
+        @NamedQuery(name = "waffle.delete", query = "Delete from Waffle w where w.id = :id")
 })
 public class Waffle {
 

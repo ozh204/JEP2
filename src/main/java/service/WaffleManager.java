@@ -56,7 +56,14 @@ public class WaffleManager {
     }
 
     public void deleteWaffle(Waffle waffle){
-        em.remove(waffle);
+
+        for (Orders order : waffle.getOrders()) {
+            order.getWaffles().remove(waffle);
+        }
+        em.merge(waffle);
+        em.flush();
+//        em.remove(waffle);
+//        em.createNamedQuery("waffle.delete").setParameter("id", waffle.getId());
     }
 
 }

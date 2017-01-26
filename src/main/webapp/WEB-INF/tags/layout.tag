@@ -3,7 +3,7 @@
 <html>
 <head>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/nav.js"></script>
+    <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/nav.js"></script>--%>
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/css/Site.css" rel="stylesheet" type="text/css">
 
@@ -17,7 +17,7 @@
                 <li><a href="/TJE2/api" value="" class="navbar-brand" >Strona główna</a></li>
                 <li><a href="/TJE2/api/waffle" value="">Gofry</a></li>
                 <li><a href="/TJE2/api/order" value="">Zamówienia</a></li>
-                <li><a href="/TJE2/api/buy" value="">Koszyk</a></li>
+                <li><a href="/TJE2/api/order/cart" value="">Koszyk</a></li>
             </ul>
         </div>
     </div>

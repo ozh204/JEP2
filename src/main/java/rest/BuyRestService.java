@@ -26,31 +26,7 @@ public class BuyRestService {
     @Context
     HttpServletResponse response;
 
-    @GET
-    @Path("/")
-    public void index() {
 
-        HttpSession session = request.getSession(true);
-
-        request.setAttribute("order", session);
-        redirect("/buy/buy.jsp");
-
-    }
-
-    @GET
-    @Path("/confirm")
-    public void confirm() {
-
-        HttpSession session = request.getSession(true);
-        Orders order = (Orders)session.getAttribute("order");
-        om.addOrder(order);
-
-        session.setAttribute("order", null);
-
-        request.setAttribute("order", session);
-        redirect("/buy/buy.jsp");
-
-    }
 
     private void redirect(String url){
 

@@ -1,6 +1,7 @@
 package rest;
 
 import domain.Orders;
+import domain.Waffle;
 import service.OrderManager;
 
 import javax.ejb.EJB;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.List;
 
 @Path("order")
 @Stateless
@@ -51,7 +54,7 @@ public class OrderRestService {
 	public void Create()
 	{
 		request.setAttribute("order", new Orders());
-		redirect("/order/index.jsp");
+		redirect("/order/create.jsp");
 	}
 
 	@POST
@@ -63,6 +66,7 @@ public class OrderRestService {
 		HttpSession session = request.getSession(true);
 		session.setAttribute("order", order);
 
+		request.setAttribute("order", om.getAll());
 		redirect("/order/index.jsp");
 	}
 
@@ -77,8 +81,6 @@ public class OrderRestService {
 
 	@PUT
 	@Path("/edit")
-//	@Consumes("application/x-www-form-urlencoded")
-//	@Consumes(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void EditOrder()
 	{
@@ -124,5 +126,88 @@ public class OrderRestService {
 			e.printStackTrace();
 		}
 	}
+
+	@GET
+	@Path("/cart")
+	public void cart() {
+
+		HttpSession session = request.getSession(true);
+
+		request.setAttribute("order", session.getAttribute("order"));
+		redirect("/order/cart.jsp");
+
+	}
+
+	@GET
+	@Path("/confirm")
+	public void confirm() {
+
+		HttpSession session = request.getSession(true);
+		Orders order = (Orders)session.getAttribute("order");
+		om.addOrder(order);
+
+		session.setAttribute("order", null);
+
+		request.setAttribute("order", om.getAll());
+		redirect("/order/index.jsp");
+
+	}
+
+//	@GET
+//	@Path("/")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public List<Orders> index(){
+//
+//		return om.getAll();
+//	}
+//
+//	@GET
+//	@Path("/details/{id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Orders details(@PathParam("id") long id){
+//
+//		return om.getOrder(id);
+//
+//	}
+//
+//	@POST
+//	@Path("/create")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response Create(Orders order) {
+//
+//		om.addOrder(order);
+//
+//		return Response.status(Response.Status.CREATED).build();
+//	}
+//
+//	@PUT
+//	@Path("/edit")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response Edit(Orders order)	{
+//
+//		om.modifyOrder(order);
+//
+//		return Response.status(Response.Status.OK).build();
+//
+//	}
+//
+//	@DELETE
+//	@Path("/delete/{id}")
+//	public Response Delete(@PathParam("id") long id)
+//	{
+//		Orders order = om.getOrder(id);
+//		om.deleteOrder(order);
+//
+//		return Response.status(Response.Status.OK).build();
+//	}
+//
+//	@GET
+//	@Path("/{id}/waffles")
+//	public List<Waffle> showWaffles(@PathParam("id") long id)
+//	{
+//		List<Waffle> waffles = om.getWafflesOfOrder(id);
+//
+//		return waffles;
+//	}
 
 }

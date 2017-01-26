@@ -20,7 +20,7 @@
                 <dd>${order.sold}</dd>
 
             </dl>
-            <a href="/TJE2/api/buy/confirm" value="">Zatwierdź</a> |
+            <a href="/TJE2/api/order/confirm" value="">Zatwierdź</a> |
         </div>
         <p>
             <a href="/TJE2/api/order/edit/${item.id}" value="">Edytuj</a> |

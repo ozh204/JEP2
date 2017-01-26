@@ -5,7 +5,7 @@
 <t:layout>
   <jsp:body>
 
-    <h2>Gofry</h2>
+    <h2>Zamówienia</h2>
     <p>
       <a href="/TJE2/api/order/create" value="">Stwórz zamówienie</a>
     </p>

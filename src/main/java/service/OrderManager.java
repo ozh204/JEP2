@@ -36,6 +36,7 @@ public class OrderManager {
 
         order.setPrice(price);
         order.setWaffles(newOrder.getWaffles());
+        order.setSold(newOrder.getSold());
     }
 
     public List<Waffle> getWafflesOfOrder(Long id){

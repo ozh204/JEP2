@@ -14,8 +14,8 @@ import java.util.List;
 public class Orders {
 
     private Long id;
-    private double price = 0.0;
-    private Date date = new Date();
+    private double price;
+    private Date date;
     private Boolean sold = false;
 
     private List<Waffle> waffles = new ArrayList<Waffle>();
@@ -52,14 +52,8 @@ public class Orders {
 
     public void setSold(Boolean sold) {
         this.sold = sold;
-    }
-
-    public void updatePrice() {
-        setPrice(0);
-
-        for(Waffle waffle : this.waffles) {
-            this.price += waffle.getPrice();
-        }
+        if(sold == true) setDate(new Date());
+        if(sold == false) setDate(null);
     }
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

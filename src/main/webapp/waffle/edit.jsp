@@ -7,21 +7,18 @@
 
         <h2>Edytuj gofra</h2>
 
-        <form action="edit" method="POST" name="json">
-            <input type="hidden" name="_method" value="PUT" />
-
             <div class="form-horizontal">
                 <h4>Gofr</h4>
                 <hr />
 
                 <div class="form-group">
-                    <input value="${waffle.id}" type="hidden" name="id">
+                    <input value="${waffle.id}" type="hidden" id="id">
 
                     <label class = "control-label col-md-2">
                         Cena
                     </label>
                     <div class="col-md-10">
-                        <input class="form-control text-box single-line" value="${waffle.price}" type="text" name="price">
+                        <input class="form-control text-box single-line" value="${waffle.price}" type="text" id="price">
                     </div>
                 </div>
 
@@ -30,7 +27,7 @@
                         Polewa
                     </label>
                     <div class="col-md-10">
-                        <input class="form-control text-box single-line" value="${waffle.topping}" type="text" name="topping">
+                        <input class="form-control text-box single-line" value="${waffle.topping}" type="text" id="topping">
                     </div>
                 </div>
 
@@ -39,7 +36,7 @@
                         Cukier puder
                     </label>
                     <div class="col-md-10">
-                        <input class="form-control text-box single-line" value="${waffle.sugar}" type="text" name="sugar">
+                        <input class="form-control text-box single-line" value="${waffle.sugar}" type="text" id="sugar">
                     </div>
                 </div>
 
@@ -48,7 +45,7 @@
                         Śmietana
                     </label>
                     <div class="col-md-10">
-                        <input class="form-control text-box single-line" value="${waffle.cream}" type="text" name="cream">
+                        <input class="form-control text-box single-line" value="${waffle.cream}" type="text" id="cream">
                     </div>
                 </div>
 
@@ -57,22 +54,44 @@
                         Owoce
                     </label>
                     <div class="col-md-10">
-                        <input class="form-control text-box single-line" value="${waffle.fruit}" type="text" name="fruit">
+                        <input class="form-control text-box single-line" value="${waffle.fruit}" type="text" id="fruit">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="edit" class="btn btn-default" />
+                        <input type="button" value="Edytuj" class="btn btn-default" id="send"/>
                     </div>
                 </div>
 
             </div>
-        </form>
 
         <div>
             <a href="/TJE2/api/waffle" value="">Wróć do listy</a>
         </div>
 
+        <script type="text/javascript">
+            $("#send").click(function () {
+
+                var myObject = new Object();
+
+                myObject.id = $("#id").val();
+                myObject.price = $("#price").val();
+                myObject.topping = $("#topping").val();
+                myObject.cream = $("#cream").val();
+                myObject.fruit = $("#fruit").val();
+                myObject.sugar = $("#sugar").val();
+
+                var myString = JSON.stringify(myObject);
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/TJE2/api/waffle/edit",
+                    data: myString,
+                    contentType: 'application/json',
+                    success: function() {alert('zmodyfikowano');}
+                });
+            });
+        </script>
     </jsp:body>
 </t:layout>

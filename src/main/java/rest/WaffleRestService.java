@@ -8,10 +8,13 @@ import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.List;
 
 @Path("waffle")
 public class WaffleRestService {
@@ -26,11 +29,10 @@ public class WaffleRestService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void index(){
+  	public void index(){
 
 		request.setAttribute("waffle", wm.getAll());
 		redirect("/waffle/index.jsp");
-
 	}
 
 	@GET
@@ -40,6 +42,21 @@ public class WaffleRestService {
 
 		request.setAttribute("waffle", wm.getWaffle(id));
 		redirect("/waffle/details.jsp");
+
+	}
+
+	@PUT
+	@Path("/details")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addToOrderSession(Waffle waffle)
+	{
+
+		HttpSession session = request.getSession(true);
+		Orders order = (Orders)session.getAttribute("order");
+		order.getWaffles().add(waffle);
+		session.setAttribute("order", order);
+
+		return Response.status(Response.Status.OK).build();
 
 	}
 
@@ -74,6 +91,15 @@ public class WaffleRestService {
 		wm.addWaffle(waffle);
 		redirect("/waffle/create.jsp");
 	}
+	//	@POST
+//	@Path("/create")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response Create(Waffle waffle) {
+//
+//		wm.addWaffle(waffle);
+//
+//		return Response.status(Response.Status.CREATED).build();
+//	}
 
 	@GET
 	@Path("/edit/{id}")
@@ -86,30 +112,15 @@ public class WaffleRestService {
 
 	@PUT
 	@Path("/edit")
-//	@Consumes("application/x-www-form-urlencoded")
-//	@Consumes(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void Edit(
-			@QueryParam("id") long id,
-			@QueryParam("price") long price,
-			@QueryParam("sugar") String sugar,
-			@QueryParam("topping") String topping,
-			@QueryParam("fruit") String fruit,
-			@QueryParam("cream") String cream)
-	{
-
-		Waffle waffle = new Waffle();
-
-		waffle.setId(id);
-		waffle.setPrice(price);
-		waffle.setSugar(sugar);
-		waffle.setTopping(topping);
-		waffle.setFruit(fruit);
-		waffle.setCream(cream);
+	public Response Edit(Waffle waffle)	{
 
 		wm.modifyWaffle(waffle);
-		request.setAttribute("waffle", wm.getAll());
-		redirect("/waffle/index.jsp");
+
+		return Response.status(Response.Status.OK).build();
+//		request.setAttribute("waffle", wm.getAll());
+//		redirect("/waffle/index.jsp");
+
 	}
 
 	@GET
@@ -121,7 +132,7 @@ public class WaffleRestService {
 	}
 
 	@DELETE
-	@Path("/deletee/{id}")
+	@Path("/delete/{id}")
 	public void DeleteConfirmed(@PathParam("id") long id)
 	{
 		Waffle waffle = wm.getWaffle(id);
@@ -130,6 +141,15 @@ public class WaffleRestService {
 		request.setAttribute("waffle", wm.getWaffle(id));
 		redirect("/waffle/index.jsp");
 	}
+	//	@DELETE
+//	@Path("/delete/{id}")
+//	public Response Delete(@PathParam("id") long id)
+//	{
+//		Waffle waffle = wm.getWaffle(id);
+//		wm.deleteWaffle(waffle);
+//
+//		return Response.status(Response.Status.OK).build();
+//	}
 
 	@GET
 	@Path("/{id}/orders")
@@ -138,6 +158,14 @@ public class WaffleRestService {
 		request.setAttribute("order", wm.getOrdersOfWaffle(id));
 		redirect("/waffle/showOrders.jsp");
 	}
+	//	@GET
+//	@Path("/{id}/orders")
+//	public List<Orders> showOrders(@PathParam("id") long id)
+//	{
+//		List<Orders> orders = wm.getOrdersOfWaffle(id);
+//
+//		return orders;
+//	}
 
 	private void redirect(String url){
 

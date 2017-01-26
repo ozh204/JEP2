@@ -21,11 +21,11 @@
 
       </dl>
     </div>
+
     <p>
       <a href="/TJE2/api/order/edit/${item.id}" value="">Edytuj</a> |
       <a href="/TJE2/api/order" value="">Wróć do listy</a> |
     </p>
-
 
   </jsp:body>
 </t:layout>
