@@ -80,25 +80,10 @@ public class WaffleRestService {
 
 	@POST
 	@Path("/create")
-	@Consumes("application/x-www-form-urlencoded")
-	public Response Create(
-			@FormParam("price") long price,
-			@FormParam("type") String type,
-			@FormParam("sugar") String sugar,
-			@FormParam("topping") String topping,
-			@FormParam("fruit") String fruit,
-			@FormParam("cream") String cream)
-	{
-		Waffle waffle = new Waffle();
-
-		waffle.setPrice(price);
-		waffle.setSugar(sugar);
-		waffle.setTopping(topping);
-		waffle.setFruit(fruit);
-		waffle.setCream(cream);
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response Create(Waffle waffle) {
 
 		wm.addWaffle(waffle);
-		redirect("/waffle/create.jsp");
 		return Response.status(Response.Status.CREATED).build();
 	}
 

@@ -65,6 +65,30 @@ $(document).ready(function() {
         });
     });
 
+    $("#createWaffle").click(function () {
+        var myObject = new Object();
+
+        myObject.type = $("#type").val();
+        myObject.price = $("#price").val();
+        myObject.topping = $("#topping").val();
+        myObject.cream = $("#cream").val();
+        myObject.fruit = $("#fruit").val();
+        myObject.sugar = $("#sugar").val();
+
+        var myString = JSON.stringify(myObject);
+
+        $.ajax({
+            type: "POST",
+            url: "/TJE2/api/waffle/create",
+            data: myString,
+            contentType: 'application/json',
+            success: function () {
+                alert('Dodano');
+                window.location.href = "/TJE2/api/waffle";
+            }
+        });
+    });
+
     $("#deleteOrder").click(function () {
 
         $.ajax({

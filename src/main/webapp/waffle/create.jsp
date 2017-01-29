@@ -7,20 +7,16 @@
 
     <h2>Stwórz gofra</h2>
 
-    <form action="create" method="POST" name="json">
-
     <div class="form-horizontal">
       <h4>Gofr</h4>
       <hr />
-
-      <input value="" type="hidden" name="id">
 
       <div class="form-group">
         <label class = "control-label col-md-2">
           Typ
         </label>
         <div class="col-md-10">
-          <input class="form-control text-box single-line" value="" type="text" name="type">
+          <input class="form-control text-box single-line" value="" type="text" id="type">
         </div>
       </div>
 
@@ -29,7 +25,7 @@
           Cena
         </label>
         <div class="col-md-10">
-          <input class="form-control text-box single-line" value="" type="text" name="price">
+          <input class="form-control text-box single-line" value="" type="text" id="price">
         </div>
       </div>
 
@@ -38,7 +34,7 @@
           Polewa
         </label>
         <div class="col-md-10">
-          <input class="form-control text-box single-line" value="" type="text" name="topping">
+          <input class="form-control text-box single-line" value="" type="text" id="topping">
         </div>
       </div>
 
@@ -47,7 +43,7 @@
           Cukier puder
         </label>
         <div class="col-md-10">
-          <input class="form-control text-box single-line" value="" type="text" name="sugar">
+          <input class="form-control text-box single-line" value="" type="text" id="sugar">
         </div>
       </div>
 
@@ -56,7 +52,7 @@
           Śmietana
         </label>
         <div class="col-md-10">
-          <input class="form-control text-box single-line" value="" type="text" name="cream">
+          <input class="form-control text-box single-line" value="" type="text" id="cream">
         </div>
       </div>
 
@@ -65,18 +61,17 @@
           Owoce
         </label>
         <div class="col-md-10">
-          <input class="form-control text-box single-line" value="" type="text" name="fruit">
+          <input class="form-control text-box single-line" value="" type="text" id="fruit">
         </div>
       </div>
 
       <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-          <input type="submit" value="Stwórz" class="btn btn-default" />
+          <input type="submit" value="Stwórz" class="btn btn-default" id="createWaffle"/>
         </div>
       </div>
 
     </div>
-    </form>
 
     <div>
       <a href="/TJE2/api/waffle" value="">Wróć do listy</a>
