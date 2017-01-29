@@ -3,6 +3,7 @@ package rest;
 import domain.Orders;
 import domain.Waffle;
 import service.OrderManager;
+import service.WaffleManager;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,7 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.List;
 
 @Path("order")
 @Stateless
@@ -23,6 +23,8 @@ public class OrderRestService {
 
 	@EJB
 	OrderManager om;
+	@EJB
+	WaffleManager wm;
 	@Context
 	HttpServletRequest request;
 	@Context
@@ -31,91 +33,211 @@ public class OrderRestService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void index(){
+	public Response index(){
 
 		request.setAttribute("order", om.getAll());
 		redirect("/order/index.jsp");
+
+		return Response.status(Response.Status.OK).build();
 
 	}
 
 	@GET
 	@Path("/details/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void details(@PathParam("id") long id){
+	public Response details(@PathParam("id") long id){
 
 		request.setAttribute("order", om.getOrder(id));
 		redirect("/order/details.jsp");
+
+		return Response.status(Response.Status.OK).build();
 
 	}
 
 	@GET
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void Create()
-	{
-		request.setAttribute("order", new Orders());
+	public Response Create() {
+
+//		request.setAttribute("order", new Orders());
 		redirect("/order/create.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
 	}
 
 	@POST
 	@Path("/create")
 	@Consumes("application/x-www-form-urlencoded")
-	public void CreateOrder() {
+	public Response CreateOrder() {
 
-		Orders order = new Orders();
 		HttpSession session = request.getSession(true);
+		Orders order = (Orders)session.getAttribute("order");
+
+		if(order != null) {
+
+			redirect("/order/cart.jsp");
+
+			return Response.status(Response.Status.FOUND).build();
+
+		}
+
+		order = new Orders();
 		session.setAttribute("order", order);
 
 		request.setAttribute("order", om.getAll());
 		redirect("/order/index.jsp");
+
+		return Response.status(Response.Status.CREATED).build();
 	}
 
 	@GET
 	@Path("/edit/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void Edit(@PathParam("id") long id) {
+	public Response Edit(@PathParam("id") long id) {
 
 		request.setAttribute("order", om.getOrder(id));
 		redirect("/order/edit.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
 	}
 
 	@PUT
 	@Path("/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void EditOrder()
-	{
-		Orders order = new Orders();
+	public Response Edit(Orders order) {
 
 		om.modifyOrder(order);
-		request.setAttribute("order", om.getAll());
-		redirect("/order/index.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@GET
+	@Path("/{id}/waffle")
+	public Response addWaffle(@PathParam("id") long id){
+
+		request.setAttribute("orderId", id);
+		request.setAttribute("waffle", wm.getAll());
+		redirect("/order/addWaffle.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@GET
+	@Path("/{orderId}/waffle/{waffleId}")
+	public Response addWaffle(@PathParam("orderId") long orderId, @PathParam("waffleId") long waffleId){
+
+		request.setAttribute("order", om.getOrder(orderId));
+		request.setAttribute("waffle", wm.getWaffle(waffleId));
+		redirect("/order/addWaffleConfirm.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@PUT
+	@Path("/{orderId}/waffle/{waffleId}")
+	public Response addWaffleConfirm(@PathParam("orderId") long orderId, @PathParam("waffleId") long waffleId){
+
+		om.addWaffleToOrder(orderId, waffleId);
+
+		return Response.status(Response.Status.OK).build();
+
 	}
 
 	@GET
 	@Path("/delete/{id}")
-	public void Delete(@PathParam("id") long id)
-	{
+	public Response Delete(@PathParam("id") long id) {
+
 		request.setAttribute("order", om.getOrder(id));
 		redirect("/order/delete.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
 	}
 
 	@DELETE
-	@Path("/deletee/{id}")
-	public void DeleteConfirmed(@PathParam("id") long id)
-	{
-		Orders order = om.getOrder(id);
-		om.deleteOrder(order);
+	@Path("/delete/{id}")
+	public Response DeleteConfirmed(@PathParam("id") long id) {
 
+		om.deleteOrder(om.getOrder(id));
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@GET
+	@Path("/{id}/waffle/{waffleId}/delete")
+	public Response DeleteWaffle(@PathParam("id") long id, @PathParam("waffleId") long waffleId) {
+
+		request.setAttribute("waffle", wm.getWaffle(waffleId));
 		request.setAttribute("order", om.getOrder(id));
-		redirect("/order/index.jsp");
+		redirect("/order/deleteWaffle.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@DELETE
+	@Path("/{id}/waffle/{waffleId}/delete")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response DeleteWaffleConfirmed(@PathParam("id") long id, @PathParam("waffleId") long waffleId) {
+
+		om.deleteWaffleFromOrder(waffleId, id);
+
+		return Response.status(Response.Status.OK).build();
+
 	}
 
 	@GET
 	@Path("/{id}/waffles")
-	public void showWaffles(@PathParam("id") long id)
-	{
+	public Response showWaffles(@PathParam("id") long id) {
+
 		request.setAttribute("waffle", om.getWafflesOfOrder(id));
 		redirect("/order/showWaffles.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@GET
+	@Path("/cart")
+	public Response cart() {
+
+		HttpSession session = request.getSession(true);
+
+		request.setAttribute("order", session.getAttribute("order"));
+		redirect("/order/cart.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
+	}
+
+	@GET
+	@Path("/confirm")
+	public Response confirm() {
+
+		HttpSession session = request.getSession(true);
+		Orders order = (Orders)session.getAttribute("order");
+		if(order == null) {
+
+			redirect("/order/cart.jsp");
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+
+		}
+
+		om.addOrder(order);
+
+		session.setAttribute("order", null);
+
+		request.setAttribute("order", om.getAll());
+		redirect("/order/index.jsp");
+
+		return Response.status(Response.Status.OK).build();
+
 	}
 
 	private void redirect(String url){
@@ -125,89 +247,7 @@ public class OrderRestService {
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@GET
-	@Path("/cart")
-	public void cart() {
-
-		HttpSession session = request.getSession(true);
-
-		request.setAttribute("order", session.getAttribute("order"));
-		redirect("/order/cart.jsp");
 
 	}
-
-	@GET
-	@Path("/confirm")
-	public void confirm() {
-
-		HttpSession session = request.getSession(true);
-		Orders order = (Orders)session.getAttribute("order");
-		om.addOrder(order);
-
-		session.setAttribute("order", null);
-
-		request.setAttribute("order", om.getAll());
-		redirect("/order/index.jsp");
-
-	}
-
-//	@GET
-//	@Path("/")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public List<Orders> index(){
-//
-//		return om.getAll();
-//	}
-//
-//	@GET
-//	@Path("/details/{id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Orders details(@PathParam("id") long id){
-//
-//		return om.getOrder(id);
-//
-//	}
-//
-//	@POST
-//	@Path("/create")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public Response Create(Orders order) {
-//
-//		om.addOrder(order);
-//
-//		return Response.status(Response.Status.CREATED).build();
-//	}
-//
-//	@PUT
-//	@Path("/edit")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public Response Edit(Orders order)	{
-//
-//		om.modifyOrder(order);
-//
-//		return Response.status(Response.Status.OK).build();
-//
-//	}
-//
-//	@DELETE
-//	@Path("/delete/{id}")
-//	public Response Delete(@PathParam("id") long id)
-//	{
-//		Orders order = om.getOrder(id);
-//		om.deleteOrder(order);
-//
-//		return Response.status(Response.Status.OK).build();
-//	}
-//
-//	@GET
-//	@Path("/{id}/waffles")
-//	public List<Waffle> showWaffles(@PathParam("id") long id)
-//	{
-//		List<Waffle> waffles = om.getWafflesOfOrder(id);
-//
-//		return waffles;
-//	}
 
 }

@@ -3,7 +3,8 @@
 <html>
 <head>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-    <%--<script type="text/javascript" src="${pageContext.request.contextPath}/js/nav.js"></script>--%>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/nav.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/validator.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/css/Site.css" rel="stylesheet" type="text/css">
 

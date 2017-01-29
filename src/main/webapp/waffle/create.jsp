@@ -13,9 +13,18 @@
       <h4>Gofr</h4>
       <hr />
 
-      <div class="form-group">
-        <input value="" type="hidden" name="id">
+      <input value="" type="hidden" name="id">
 
+      <div class="form-group">
+        <label class = "control-label col-md-2">
+          Typ
+        </label>
+        <div class="col-md-10">
+          <input class="form-control text-box single-line" value="" type="text" name="type">
+        </div>
+      </div>
+
+      <div class="form-group">
         <label class = "control-label col-md-2">
           Cena
         </label>

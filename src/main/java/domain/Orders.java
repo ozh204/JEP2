@@ -13,15 +13,17 @@ import java.util.List;
 })
 public class Orders {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double price;
     private Date date;
     private Boolean sold = false;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Waffle> waffles = new ArrayList<Waffle>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     public Long getId() {
         return id;
     }
@@ -51,12 +53,14 @@ public class Orders {
     }
 
     public void setSold(Boolean sold) {
+
+        if((sold == true)&&(this.sold == false)) setDate(new Date());
+        if((sold == false)&&(this.sold == true)) setDate(null);
+
         this.sold = sold;
-        if(sold == true) setDate(new Date());
-        if(sold == false) setDate(null);
+
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Waffle> getWaffles() {
         return waffles;
     }

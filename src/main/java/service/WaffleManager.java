@@ -29,7 +29,7 @@ public class WaffleManager {
 
         Waffle waffle = em.find(Waffle.class, newWaffle.getId());
 
-        double price = 0;
+        double price = 3.5;
 
         waffle.setCream(newWaffle.getCream());
         waffle.setFruit(newWaffle.getFruit());
@@ -37,17 +37,40 @@ public class WaffleManager {
         waffle.setTopping(newWaffle.getTopping());
 
         if(!newWaffle.getCream().equals("Nie")) price += 2.5;
-        if(!newWaffle.getFruit().equals("Brak")) price += 3.5;
+        if(!newWaffle.getFruit().equals("Nie")) price += 2.5;
         if(!newWaffle.getSugar().equals("Nie")) price += 0.5;
-        if(!newWaffle.getTopping().equals("Brak")) price += 1.5;
+        if(!newWaffle.getTopping().equals("Nie")) price += 1.5;
 
         waffle.setPrice(price);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Orders> getOrdersOfWaffle(Long id){
-        Waffle retrieved = em.find(Waffle.class, id);
-        List<Orders> result = new ArrayList<Orders>(retrieved.getOrders());
-        return result;
+
+        Waffle waffle = em.find(Waffle.class, id);
+//        List<Orders> result = new ArrayList<Orders>(retrieved.getOrders());
+        List<Orders> allOrders = em.createNamedQuery("orders.all").getResultList();
+        List<Orders> orders = new ArrayList<>();
+
+        for (Orders order : allOrders) {
+            if(order.getWaffles().contains(waffle)) {
+                orders.add(order);
+            }
+        }
+
+
+        return orders;
+
+    }
+
+    public void addWaffleToOrder(Waffle waffle, Orders order) {
+
+        order.getWaffles().add(waffle);
+
+        double price = order.getPrice();
+        price += waffle.getPrice();
+        order.setPrice(price);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -57,13 +80,11 @@ public class WaffleManager {
 
     public void deleteWaffle(Waffle waffle){
 
-        for (Orders order : waffle.getOrders()) {
-            order.getWaffles().remove(waffle);
+        if (!em.contains(waffle)) {
+            waffle = em.merge(waffle);
         }
-        em.merge(waffle);
-        em.flush();
-//        em.remove(waffle);
-//        em.createNamedQuery("waffle.delete").setParameter("id", waffle.getId());
+
+        em.remove(waffle);
     }
 
 }

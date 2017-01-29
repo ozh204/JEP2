@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @XmlRootElement
@@ -13,24 +14,36 @@ import java.util.List;
 })
 public class Waffle {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String type;
     private double price;
-    private String topping = "Brak";
-    private String sugar = "Nie";
-    private String cream = "Nie";
-    private String fruit = "Brak";
-    private List<Orders> orders = new ArrayList<Orders>();
+    private String topping;
+    private String sugar;
+    private String cream;
+    private String fruit;
+
+    @ManyToMany(mappedBy = "waffles", fetch = FetchType.EAGER)
+    private Set<Orders> orders;
 
     public Waffle() {}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public double getPrice() {
@@ -79,12 +92,11 @@ public class Waffle {
         this.fruit = fruit;
     }
 
-    @ManyToMany(mappedBy = "waffles", fetch = FetchType.EAGER)
-    public List<Orders> getOrders() {
+    public Set<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Orders> orders) {
+    public void setOrders(Set<Orders> orders) {
         this.orders = orders;
     }
 }

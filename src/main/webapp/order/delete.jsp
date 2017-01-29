@@ -7,6 +7,11 @@
 
         <h2>Usuń</h2>
 
+        <input value="${order.id}" type="hidden" id="id">
+        <input value="${order.waffles}" type="hidden" id="waffles">
+        <input value="${order.price}" type="hidden" id="id">
+        <input value="${order.date}" type="hidden" id="waffles">
+
         <div>
             <h4>Zamówienie</h4>
             <hr />
@@ -17,12 +22,14 @@
                 <dt>Data</dt>
                 <dd>${order.date}</dd>
                 <dt>Czy sprzedany</dt>
-                <dd>${order.sold}</dd>
-
+                <dd>
+                    <input class="check-box" disabled="disabled" type="checkbox" <c:if test="${order.sold == true}"> checked="checked" </c:if> id="sold">
+                </dd>
             </dl>
+            <input type="button" value="Usuń" class="btn btn-default" id="deleteOrder"/>
+
         </div>
         <p>
-            <a href="/TJE2/api/order/deletee/${item.id}" value="">Usuń</a> |
             <a href="/TJE2/api/order" value="">Wróć do listy</a> |
         </p>
 

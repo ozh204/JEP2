@@ -4,12 +4,29 @@
 
 <t:layout>
     <jsp:body>
-        <input type="hidden" value="${waffle.id}" id="id"/>
 
-        <h2>Usuń</h2>
+        <h2>Usuń Gofra z Zamówienia</h2>
+
+        <div>
+            <h4>Zamówienie</h4>
+            <input value="${order.id}" type="hidden" id="orderId">
+            <hr />
+            <dl class="dl-horizontal">
+
+                <dt>Cena</dt>
+                <dd>${order.price}</dd>
+                <dt>Data</dt>
+                <dd>${order.date}</dd>
+                <dt>Czy sprzedany</dt>
+                <dd>${order.sold}</dd>
+
+            </dl>
+        </div>
 
         <div>
             <h4>Gofr</h4>
+            <input type="hidden" value="${waffle.id}" id="id" />
+
             <hr />
             <dl class="dl-horizontal">
 
@@ -27,14 +44,11 @@
                 <dd>${waffle.fruit}</dd>
 
             </dl>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Usuń" class="btn btn-default" id="deleteWaffle"/>
-                </div>
-            </div>
         </div>
+        <input type="button" value="Usuń" class="btn btn-default" id="deleteWaffleFromOrder"/>
+
         <p>
-            <a href="/TJE2/api/waffle" value="">Wróć do listy</a> |
+            <a href="/TJE2/api/order" value="">Wróć do listy</a> |
         </p>
 
     </jsp:body>

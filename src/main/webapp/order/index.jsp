@@ -25,7 +25,7 @@
               ${item.date}
           </td>
           <td>
-              ${item.sold}
+            <input class="check-box" disabled="disabled" type="checkbox" <c:if test="${item.sold == true}"> checked="checked" </c:if> id="sold">
           </td>
           <td>
             <a href="/TJE2/api/order/edit/${item.id}" value="">Edytuj</a> |

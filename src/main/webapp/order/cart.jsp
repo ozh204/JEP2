@@ -13,11 +13,19 @@
             <dl class="dl-horizontal">
 
                 <dt>Cena</dt>
-                <dd>${order.price}</dd>
+                    <dd>${order.price}</dd>
                 <dt>Data</dt>
-                <dd>${order.date}</dd>
+                    <dd>${order.date}</dd>
                 <dt>Czy sprzedany</dt>
-                <dd>${order.sold}</dd>
+                    <input class="check-box" disabled="disabled" type="checkbox" <c:if test="${order.sold == true}"> checked="checked" </c:if> id="sold">
+                <dt>Gofry</dt>
+                    <dd>
+                        <select id="id">
+                            <c:forEach items="${order.waffles}" var="item">
+                                <option value="${item.id}">${item.type}</option>
+                            </c:forEach>
+                        </select>
+                    </dd>
 
             </dl>
             <a href="/TJE2/api/order/confirm" value="">Zatwierdź</a> |

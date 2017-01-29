@@ -7,6 +7,7 @@
 
     <h2>Szczegóły</h2>
     <input type="hidden" value="${waffle.id}" id="id" />
+    <input type="hidden" value="${waffle.type}" id="type"/>
     <input type="hidden" value="${waffle.price}" id="price" />
     <input type="hidden" value="${waffle.topping}" id="topping" />
     <input type="hidden" value="${waffle.sugar}" id="sugar" />
@@ -18,6 +19,8 @@
       <hr />
       <dl class="dl-horizontal">
 
+        <dt>Typ</dt>
+          <dd>${waffle.type}</dd>
         <dt>Cena</dt>
           <dd>${waffle.price}</dd>
         <dt>Polewa</dt>
@@ -31,36 +34,12 @@
 
       </dl>
     </div>
-    <input type="button" value="Dodaj do koszyka" class="btn btn-default" id="add"/>
+    <input type="button" value="Dodaj do koszyka" class="btn btn-default" id="addWaffle"/>
 
     <p>
       <a href="/TJE2/api/waffle/edit/${waffle.id}" value="">Edytuj</a> |
       <a href="/TJE2/api/waffle" value="">Wróć do listy</a> |
     </p>
-
-    <script type="text/javascript">
-      $("#add").click(function () {
-
-        var myObject = new Object();
-
-        myObject.id = $("#id").val();
-        myObject.price = $("#price").val();
-        myObject.topping = $("#topping").val();
-        myObject.cream = $("#cream").val();
-        myObject.fruit = $("#fruit").val();
-        myObject.sugar = $("#sugar").val();
-
-        var myString = JSON.stringify(myObject);
-
-        $.ajax({
-          type: "PUT",
-          url: "/TJE2/api/waffle/details",
-          data: myString,
-          contentType: 'application/json',
-          success: function() {alert('dodano');}
-        });
-      });
-    </script>
 
   </jsp:body>
 </t:layout>

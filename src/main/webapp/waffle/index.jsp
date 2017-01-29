@@ -11,6 +11,7 @@
   </p>
   <table class="table">
     <tr>
+      <th>Typ</th>
       <th>Cena</th>
       <th>Polewa</th>
       <th>Cukier puder</th>
@@ -21,7 +22,10 @@
     <c:forEach items="${waffle}" var="item">
       <tr>
         <td>
-          ${item.price}
+            ${item.type}
+        </td>
+        <td>
+            ${item.price}
         </td>
         <td>
             ${item.topping}
@@ -44,8 +48,6 @@
       </tr>
     </c:forEach>
   </table>
-
-
 
   </jsp:body>
 </t:layout>
