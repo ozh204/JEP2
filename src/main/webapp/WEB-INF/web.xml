@@ -12,6 +12,8 @@
       <web-resource-name>Admin</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
       <url-pattern>/api/waffle/create</url-pattern>
+      <url-pattern>/api/waffle/edit</url-pattern>
+      <url-pattern>/api/shop/create</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <description>Available groups</description>
@@ -24,6 +26,7 @@
     <web-resource-collection>
       <web-resource-name>Manager</web-resource-name>
       <url-pattern>/api/order/edit/*</url-pattern>
+      <url-pattern>/api/shop/edit/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <description>Available groups</description>

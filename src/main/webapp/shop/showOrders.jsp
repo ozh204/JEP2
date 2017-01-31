@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html;application/json" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -25,13 +25,12 @@
               ${item.date}
           </td>
           <td>
-            <input class="check-box" disabled="disabled" type="checkbox" <c:if test="${item.sold == true}"> checked="checked" </c:if> id="sold">
+              <input class="check-box" disabled="disabled" type="checkbox" <c:if test="${item.sold == true}"> checked="checked" </c:if> id="sold">
           </td>
           <td>
             <a href="/TJE2/api/order/edit/${item.id}" value="">Edytuj</a> |
             <a href="/TJE2/api/order/details/${item.id}" value="">Szczegóły</a> |
-            <a href="/TJE2/api/order/delete/${item.id}" value="">Usuń</a> |
-            <a href="/TJE2/api/order/${item.id}/waffles" value="">Gofry</a>
+            <a href="/TJE2/api/order/delete/${item.id}" value="">Usuń</a>
           </td>
         </tr>
       </c:forEach>

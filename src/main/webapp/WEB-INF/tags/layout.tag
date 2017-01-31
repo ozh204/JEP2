@@ -5,6 +5,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/nav.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/validator.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.js"></script>
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/css/Site.css" rel="stylesheet" type="text/css">
 
@@ -19,6 +20,7 @@
                 <li><a href="/TJE2/api/waffle" value="">Gofry</a></li>
                 <li><a href="/TJE2/api/order" value="">Zamówienia</a></li>
                 <li><a href="/TJE2/api/order/cart" value="">Koszyk</a></li>
+                <li><a href="/TJE2/api/shop" value="">Nasze sklepy</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="${pageContext.request.contextPath}/login.jsp">Zaloguj</a></li>

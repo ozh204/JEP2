@@ -21,8 +21,7 @@ public class WaffleManager {
     }
 
     public Waffle getWaffle(Long id){
-        Waffle retrieved = em.find(Waffle.class, id);
-        return retrieved;
+        return em.find(Waffle.class, id);
     }
 
     public void modifyWaffle(Waffle newWaffle) {
@@ -48,7 +47,6 @@ public class WaffleManager {
     public List<Orders> getOrdersOfWaffle(Long id){
 
         Waffle waffle = em.find(Waffle.class, id);
-//        List<Orders> result = new ArrayList<Orders>(retrieved.getOrders());
         List<Orders> allOrders = em.createNamedQuery("orders.all").getResultList();
         List<Orders> orders = new ArrayList<>();
 
@@ -78,6 +76,7 @@ public class WaffleManager {
         return em.createNamedQuery("waffle.all").getResultList();
     }
 
+    @SuppressWarnings("unchecked")
     public void deleteWaffle(Waffle waffle){
 
         if (!em.contains(waffle)) {
