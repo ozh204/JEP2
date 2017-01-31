@@ -20,6 +20,10 @@
                 <li><a href="/TJE2/api/order" value="">Zamówienia</a></li>
                 <li><a href="/TJE2/api/order/cart" value="">Koszyk</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="${pageContext.request.contextPath}/login.jsp">Zaloguj</a></li>
+                <li><a href="${pageContext.request.contextPath}/logout.jsp">Wyloguj</a></li>
+            </ul>
         </div>
     </div>
 </div>

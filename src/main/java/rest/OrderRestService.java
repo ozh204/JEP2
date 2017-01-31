@@ -59,7 +59,6 @@ public class OrderRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response Create() {
 
-//		request.setAttribute("order", new Orders());
 		redirect("/order/create.jsp");
 
 		return Response.status(Response.Status.OK).build();
