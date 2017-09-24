@@ -16,8 +16,8 @@
     <div class="container">
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/TJE2/api" value="" class="navbar-brand" >Strona główna</a></li>
-                <li><a href="/TJE2/api/waffle" value="">Gofry</a></li>
+                <li><a href="/TJE2" value="" class="navbar-brand" >Strona główna</a></li>
+                <li><a href="/TJE2/waffle" value="">Gofry</a></li>
                 <li><a href="/TJE2/api/order" value="">Zamówienia</a></li>
                 <li><a href="/TJE2/api/order/cart" value="">Koszyk</a></li>
                 <li><a href="/TJE2/api/shop" value="">Nasze sklepy</a></li>
