@@ -1,5 +1,7 @@
 package domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -17,14 +19,17 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double price;
+    @Temporal(TemporalType.DATE)
     private Date date;
     private Boolean sold = false;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Waffle> waffles = new ArrayList<Waffle>();
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="SHOP_ID")
+    @JsonIgnore
     private Shop shop;
 
     public Long getId() {

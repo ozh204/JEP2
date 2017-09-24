@@ -6,13 +6,17 @@
 
   <display-name>JEP2</display-name>
 
+  <welcome-file-list>
+    <welcome-file>home/index.xhtml</welcome-file>
+  </welcome-file-list>
+
   <security-constraint>
     <display-name>Security settings</display-name>
     <web-resource-collection>
       <web-resource-name>Admin</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
-      <url-pattern>/api/waffle/create</url-pattern>
-      <url-pattern>/api/waffle/edit</url-pattern>
+      <url-pattern>/waffle/create</url-pattern>
+      <url-pattern>/waffle/edit</url-pattern>
       <url-pattern>/api/shop/create</url-pattern>
     </web-resource-collection>
     <auth-constraint>
@@ -61,5 +65,54 @@
     <error-code>404</error-code>
     <location>/notFound.jsp</location>
   </error-page>
+
+  <!--Mapping waffle-->
+
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
+  </servlet-mapping>
+<!-- k-->
+  <servlet>
+    <servlet-name>waffle</servlet-name>
+    <jsp-file>/waffle/index.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>waffle</servlet-name>
+    <url-pattern>/waffle/</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>waffle/create</servlet-name>
+    <jsp-file>/waffle/create.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>waffle/create</servlet-name>
+    <url-pattern>/waffle/create</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>waffle/orders</servlet-name>
+    <jsp-file>/waffle/showOrders.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>waffle/orders</servlet-name>
+    <url-pattern>/api/waffle/ordersOfWaffle/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>waffle/details</servlet-name>
+    <jsp-file>/waffle/details.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>waffle/details</servlet-name>
+    <url-pattern>/waffle/*</url-pattern>
+  </servlet-mapping>
 
 </web-app>

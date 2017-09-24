@@ -17,11 +17,25 @@ public class WaffleManager {
     EntityManager em;
 
     public void addWaffle(Waffle waffle){
+
         em.persist(waffle);
+
     }
 
     public Waffle getWaffle(Long id){
-        return em.find(Waffle.class, id);
+
+        Waffle waffle = em.find(Waffle.class, id);
+        Waffle newWaffle = new Waffle();
+
+        newWaffle.setId(waffle.getId());
+        newWaffle.setPrice(waffle.getPrice());
+        newWaffle.setSugar(waffle.getSugar());
+        newWaffle.setFruit(waffle.getFruit());
+        newWaffle.setCream(waffle.getCream());
+        newWaffle.setTopping(waffle.getTopping());
+        newWaffle.setType(waffle.getType());
+
+        return newWaffle;
     }
 
     public void modifyWaffle(Waffle newWaffle) {
@@ -56,7 +70,6 @@ public class WaffleManager {
             }
         }
 
-
         return orders;
 
     }
@@ -77,13 +90,16 @@ public class WaffleManager {
     }
 
     @SuppressWarnings("unchecked")
-    public void deleteWaffle(Waffle waffle){
+    public void deleteWaffle(Long id){
+
+        Waffle waffle = em.find(Waffle.class, id);
 
         if (!em.contains(waffle)) {
             waffle = em.merge(waffle);
         }
 
         em.remove(waffle);
+
     }
 
 }

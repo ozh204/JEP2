@@ -1,38 +1,35 @@
 package rest;
 
-import java.io.IOException;
+import domain.Waffle;
+import service.WaffleManager;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Random;
 
 @SuppressWarnings("all")
 @Path("/")
 @Stateless
 public class HomeRestService {
-	
-	@Context
-    HttpServletRequest request;
-    @Context
-    HttpServletResponse response;
+
+    @EJB
+    WaffleManager wm;
 
     @GET
     @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response index() {
 
-        try {
-            request.getRequestDispatcher("/home/index.jsp").forward(request, response);
-            return Response.status(Response.Status.OK).build();
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        Random randomWaffle = new Random();
+        int howManyWaffles = wm.getAll().size();
+        int pickedNumber = randomWaffle.nextInt(howManyWaffles) + 1;
+        Waffle waffle = wm.getWaffle(Long.valueOf(pickedNumber));
+
+        return Response.ok(waffle).build();
+
     }
 
 }

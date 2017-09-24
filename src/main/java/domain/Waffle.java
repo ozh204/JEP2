@@ -1,9 +1,9 @@
 package domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,7 +24,8 @@ public class Waffle {
     private String cream;
     private String fruit;
 
-    @ManyToMany(mappedBy = "waffles", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "waffles", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Orders> orders;
 
     public Waffle() {}

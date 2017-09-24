@@ -14,10 +14,6 @@
 
                 <dt>Cena</dt>
                     <dd>${order.price}</dd>
-                <dt>Data</dt>
-                    <dd>${order.date}</dd>
-                <dt>Czy sprzedany</dt>
-                    <input class="check-box" disabled="disabled" type="checkbox" <c:if test="${order.sold == true}"> checked="checked" </c:if> id="sold">
                 <dt>Gofry</dt>
                     <dd>
                         <select id="id">
@@ -27,11 +23,11 @@
                         </select>
                     </dd>
 
+
             </dl>
-            <a href="/TJE2/api/order/confirm" value="">Zatwierdź</a> |
         </div>
         <p>
-            <a href="/TJE2/api/order/edit/${item.id}" value="">Edytuj</a> |
+            <a href="/TJE2/api/order/confirm" value="">Zatwierdź</a> |
             <a href="/TJE2/api/order" value="">Wróć do listy</a> |
         </p>
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:h = "http://java.sun.com/jsf/html">
+<h:head>
+    <title>JSF Site</title>
+    <link href="#{request.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="#{request.contextPath}/css/Site.css" rel="stylesheet" type="text/css"/>
+</h:head>
+<h:body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><h:outputLink class="navbar-brand">Strona Główna</h:outputLink></li>
+                    <li><h:outputLink value="/TJE2/waffle" >Gofry</h:outputLink></li>
+                    <li><h:outputLink value="/TJE2/api/order" >Zamówienia</h:outputLink></li>
+                    <li><h:outputLink value="/TJE2/api/order/cart" >Koszyk</h:outputLink></li>
+                    <li><h:outputLink value="/TJE2/api/shop" >Nasze sklepy</h:outputLink></li>
+                    <li><h:outputLink value="/TJE2/waffle/#{randomWaffle.get()}" >Losowy gofr</h:outputLink></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#{request.contextPath}/login.jsp">Zaloguj</a></li>
+                    <li><a href="#{request.contextPath}/logout.jsp">Wyloguj</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="jumbotron">
+            <h1>JAX-RS</h1>
+            <p class="lead">Moja stronka zrobiona w języku JAVA</p>
+            <br />
+            <p class="lead">Lorem ipsum</p>
+        </div>
+
+        <img src="#{request.contextPath}/images/gofr.jpg" alt="Gofr pyszny" style="width:100%" />
+    </div>
+    <div class="container body-content">
+        <p>&copy; Copyright Piotr Laskowski 235266</p>
+    </div>
+</h:body>
+</html>

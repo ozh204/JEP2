@@ -10,7 +10,6 @@
             <p class="lead">Moja stronka zrobiona w języku JAVA ;)</p>
             <br />
             <p class="lead">Ogólnie jakiś tam opis</p>
-            <%--<p><a href="~/Buy" class="btn btn-primary btn-lg">Przejdź do zamówienia ! &raquo;</a></p>--%>
         </div>
 
         <img src="${pageContext.request.contextPath}/images/gofr.jpg" alt="Gofr pyszny" style="width:100%" />

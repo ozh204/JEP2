@@ -1,5 +1,7 @@
 package domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ public class Shop {
     private String street;
     private String houseNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shop",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Orders> orders;
 
     public Shop() {}

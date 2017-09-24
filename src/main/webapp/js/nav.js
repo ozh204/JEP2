@@ -1,69 +1,76 @@
-$(document).ready(function() {
-    $("#addWaffle").click(function () {
+var url = window.location.pathname;
+var id = url.substring(url.lastIndexOf('/') + 1);
+
+function addWafflee() {
+    var myObject = new Object();
+
+    myObject.id = id;
+    myObject.type = "";
+    myObject.price = "";
+    myObject.topping = "";
+    myObject.cream = "";
+    myObject.fruit = "";
+    myObject.sugar = "";
+
+    var myString = JSON.stringify(myObject);
+
+    $.ajax({
+        type: "PUT",
+        url: "/TJE2/api/waffle/addToCart",
+        data: myString,
+        contentType: 'application/json',
+        success: function() {
+            alert('Dodano do koszyka');
+            window.location.href = "/TJE2/waffle";
+        }
+    });
+};
+
+function editWafflee() {
+
+    if(valid()) {
 
         var myObject = new Object();
 
-        myObject.id = $("#id").val();
-        myObject.type = $("#type").val();
-        myObject.price = $("#price").val();
-        myObject.topping = $("#topping").val();
-        myObject.cream = $("#cream").val();
-        myObject.fruit = $("#fruit").val();
-        myObject.sugar = $("#sugar").val();
+        myObject.id = id;
+        myObject.type = $("#type").find('input').val();
+        myObject.price = $("#price").find('input').val();
+        myObject.topping = $("#topping").find('input').val();
+        myObject.cream = $("#cream").find('input').val();
+        myObject.fruit = $("#fruit").find('input').val();
+        myObject.sugar = $("#sugar").find('input').val();
 
         var myString = JSON.stringify(myObject);
 
         $.ajax({
             type: "PUT",
-            url: "/TJE2/api/waffle/details",
+            url: "/TJE2/api/waffle/",
             data: myString,
             contentType: 'application/json',
-            success: function() {
-                alert('dodano');
-                window.location.href = "/TJE2/api/waffle";
+            success: function () {
+                alert('Zmodyfikowano');
+                window.location.href = "/TJE2/waffle";
             }
         });
-    });
+    }
 
-    $("#editWaffle").click(function () {
-        if(valid()) {
-            var myObject = new Object();
+};
 
-            myObject.id = $("#id").val();
-            myObject.type = $("#type").val();
-            myObject.price = $("#price").val();
-            myObject.topping = $("#topping").val();
-            myObject.cream = $("#cream").val();
-            myObject.fruit = $("#fruit").val();
-            myObject.sugar = $("#sugar").val();
+function deleteWaffle(idWaffle) {
 
-            var myString = JSON.stringify(myObject);
-
-            $.ajax({
-                type: "PUT",
-                url: "/TJE2/api/waffle/edit",
-                data: myString,
-                contentType: 'application/json',
-                success: function () {
-                    alert('Zmodyfikowano');
-                    window.location.href = "/TJE2/api/waffle";
-                }
-            });
+    $.ajax({
+        type: "DELETE",
+        url: "/TJE2/api/waffle/" + idWaffle,
+        contentType: 'application/json',
+        success: function () {
+            alert('Usunięto');
+            window.location.href = "/TJE2/waffle";
         }
     });
 
-    $("#deleteWaffle").click(function () {
+};
 
-        $.ajax({
-            type: "DELETE",
-            url: "/TJE2/api/waffle/delete/"+$("#id").val(),
-            contentType: 'application/json',
-            success: function () {
-                alert('Usunięto');
-                window.location.href = "/TJE2/api/waffle";
-            }
-        });
-    });
+$(document).ready(function() {
 
     $("#createWaffle").click(function () {
         var myObject = new Object();
@@ -84,7 +91,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function () {
                 alert('Dodano');
-                window.location.href = "/TJE2/api/waffle";
+                window.location.href = "/TJE2/waffle";
             }
         });
     });

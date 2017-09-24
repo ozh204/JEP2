@@ -1,21 +1,21 @@
 function valid() {
     //noinspection JSJQueryEfficiency
-    if(($("#sugar").val() != "Tak") && ($("#sugar").val() != "Nie")) {
+    if(($("#sugar").find('input').val() != "Tak") && ($("#sugar").find('input').val() != "Nie")) {
         alert("W polu Cukier Puder musi być Tak lub Nie");
         return false;
     }
     //noinspection JSJQueryEfficiency
-    if(($("#fruit").val() != "Tak") && ($("#fruit").val() != "Nie")) {
+    if(($("#fruit").find('input').val() != "Tak") && ($("#fruit").find('input').val() != "Nie")) {
         alert("W polu Owoce musi być Tak lub Nie");
         return false;
     }
     //noinspection JSJQueryEfficiency
-    if(($("#topping").val() != "Tak") && ($("#topping").val() != "Nie")) {
+    if(($("#topping").find('input').val() != "Tak") && ($("#topping").find('input').val() != "Nie")) {
         alert("W polu Polewa musi być Tak lub Nie");
         return false;
     }
     //noinspection JSJQueryEfficiency
-    if(($("#cream").val() != "Tak") && ($("#cream").val() != "Nie")) {
+    if(($("#cream").find('input').val() != "Tak") && ($("#cream").find('input').val() != "Nie")) {
         alert("W polu Śmietana musi być Tak lub Nie");
         return false;
     }

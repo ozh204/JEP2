@@ -5,52 +5,72 @@ import domain.Waffle;
 import service.WaffleManager;
 
 import javax.ejb.EJB;
-import javax.servlet.ServletException;
+import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 
 @Path("waffle")
+@Stateless
 public class WaffleRestService {
 	
 	@EJB
 	WaffleManager wm;
 	@Context
 	HttpServletRequest request;
-	@Context
-	HttpServletResponse response;
 
+
+//	List all waffles
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
   	public Response index(){
 
-		request.setAttribute("waffle", wm.getAll());
-		redirect("/waffle/index.jsp");
-		return Response.status(Response.Status.OK).build();
-	}
-
-	@GET
-	@Path("/details/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response details(@PathParam("id") long id){
-
-		request.setAttribute("waffle", wm.getWaffle(id));
-		redirect("/waffle/details.jsp");
-		return Response.status(Response.Status.OK).build();
+		return Response.ok(wm.getAll()).build();
 
 	}
 
+//	edit waffle
 	@PUT
-	@Path("/details")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addToOrderSession(Waffle waffle)
-	{
+	public Response Edit(Waffle waffle)	{
+
+		wm.modifyWaffle(waffle);
+
+		return Response.ok().build();
+
+	}
+
+//	delete waffle
+	@DELETE
+	@Path("/{id}")
+	public Response Delete(@PathParam("id") long id) {
+
+		wm.deleteWaffle(id);
+
+		return Response.ok().build();
+
+	}
+
+//  waffle details
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response details(@PathParam("id") Long id){
+
+		return Response.ok(wm.getWaffle(id)).build();
+
+	}
+
+//	add to cart
+	@PUT
+	@Path("/addToCart")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addToOrderSession(Waffle waffle) {
 
 		HttpSession session = request.getSession(true);
 		Orders order = (Orders)session.getAttribute("order");
@@ -59,8 +79,8 @@ public class WaffleRestService {
 			order = new Orders();
 		}
 
-
-		wm.addWaffleToOrder(waffle, order);
+		Waffle newWaffle = wm.getWaffle(waffle.getId());
+		wm.addWaffleToOrder(newWaffle, order);
 
 		session.setAttribute("order", order);
 
@@ -68,84 +88,25 @@ public class WaffleRestService {
 
 	}
 
-	@GET
-	@Path("/create")
-	public Response Create()
-	{
-		request.setAttribute("waffle", new Waffle());
-		redirect("/waffle/create.jsp");
-
-		return Response.status(Response.Status.OK).build();
-	}
-
+//	create waffle
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response Create(Waffle waffle) {
 
 		wm.addWaffle(waffle);
-		return Response.status(Response.Status.CREATED).build();
+		return Response.ok().build();
+
 	}
 
+//	show orders of waffle
 	@GET
-	@Path("/edit/{id}")
+	@Path("/ordersOfWafflee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response Edit(@PathParam("id") long id) {
+	public Response showOrders(@PathParam("id") long id) {
 
-		request.setAttribute("waffle", wm.getWaffle(id));
-		redirect("/waffle/edit.jsp");
-		return Response.status(Response.Status.OK).build();
-	}
+		return Response.ok(wm.getOrdersOfWaffle(id)).build();
 
-	@PUT
-	@Path("/edit")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response Edit(Waffle waffle)	{
-
-		wm.modifyWaffle(waffle);
-
-		return Response.status(Response.Status.OK).build();
-	}
-
-	@GET
-	@Path("/delete/{id}")
-	public Response Delete(@PathParam("id") long id) {
-
-		request.setAttribute("waffle", wm.getWaffle(id));
-		redirect("/waffle/delete.jsp");
-
-		return Response.status(Response.Status.OK).build();
-
-	}
-
-	@DELETE
-	@Path("/delete/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response DeleteConfirmed(@PathParam("id") long id) {
-
-		wm.deleteWaffle(wm.getWaffle(id));
-
-		return Response.status(Response.Status.OK).build();
-	}
-
-	@GET
-	@Path("/{id}/orders")
-	public Response showOrders(@PathParam("id") long id)
-	{
-		request.setAttribute("order", wm.getOrdersOfWaffle(id));
-		redirect("/waffle/showOrders.jsp");
-
-		return Response.status(Response.Status.OK).build();
-
-	}
-
-	private void redirect(String url){
-
-		try {
-			request.getRequestDispatcher(url).forward(request, response);
-		} catch (ServletException | IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }
